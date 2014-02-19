@@ -1,4 +1,5 @@
 <?php
+
 require 'bootstrap.php';
 
 /**
@@ -9,27 +10,30 @@ require 'bootstrap.php';
  * @author  Florian Bieringer <florian.bieringer@uni-passau.de>
  * @version 0.1a
  */
-
 class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, SystemPlugin {
 
     public function __construct() {
         parent::__construct();
 
-        $navigation = new AutoNavigation(_('ExtendedGroups'));
-        $navigation->setURL(PluginEngine::GetURL($this, array(), 'show'));
-        $navigation->setImage(Assets::image_path('blank.gif'));
-        Navigation::addItem('/extendedgroupsplugin', $navigation);
+        /* $navigation = new AutoNavigation(_('ExtendedGroups'));
+          $navigation->setURL(PluginEngine::GetURL($this, array(), 'show'));
+          $navigation->setImage(Assets::image_path('blank.gif'));
+          Navigation::addItem('/extendedgroupsplugin', $navigation); */
 
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/style.css');
-        PageLayout::addScript($this->getPluginURL().'/assets/application.js');
+        PageLayout::addStylesheet($this->getPluginURL() . '/assets/style.css');
+        PageLayout::addScript($this->getPluginURL() . '/assets/application.js');
     }
 
-    public function initialize () {
-
+    public function initialize() {
+        
     }
 
     public function getTabNavigation($course_id) {
-        return array();
+        $tab = new AutoNavigation(_("Gruppen"), PluginEngine::getLink($this, array(), "show"));
+        $tab->setImage(Assets::image_path("icons/16/white/group2"));
+        $tab->setActiveImage("icons/16/black/group2");
+        $this->tab = $tab;
+        return array('teams' => $tab);
     }
 
     public function getNotificationObjects($course_id, $since, $user_id) {
@@ -47,9 +51,7 @@ class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, Syste
     public function perform($unconsumed_path) {
         $this->setupAutoload();
         $dispatcher = new Trails_Dispatcher(
-            $this->getPluginPath(),
-            rtrim(PluginEngine::getLink($this, array(), null), '/'),
-            'show'
+                $this->getPluginPath(), rtrim(PluginEngine::getLink($this, array(), null), '/'), 'show'
         );
         $dispatcher->plugin = $this;
         $dispatcher->dispatch($unconsumed_path);
@@ -64,4 +66,5 @@ class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, Syste
             });
         }
     }
+
 }
