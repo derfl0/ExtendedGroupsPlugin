@@ -479,9 +479,9 @@ class ShowController extends StudipController {
             $newInstUser = new CourseMember(array($user_id, $_SESSION['SessionSeminar']));
             if ($newInstUser->isNew()) {
                 $user = new User($user_id);
-                $newInstUser->inst_perms = $user->perms;
+                $newInstUser->status = 'autor';
                 if ($newInstUser->store()) {
-                    StudipLog::INST_USER_ADD($_SESSION['SessionSeminar'], $user->id, $user->perms);
+                    StudipLog::SEM_USER_ADD($_SESSION['SessionSeminar'], $user->id, 'autor');
                 }
             }
         },
