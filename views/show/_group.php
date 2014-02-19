@@ -13,14 +13,14 @@
             <?= $group->getPlaces() ?> 
         <? endif; ?>
         <span class="actions">
-            <? if ($tutor): ?>
-                <? if ($type['needs_self_assign']): ?>
-                    <? if ($group->selfassign): ?>
-                        <?= Assets::img("icons/16/grey/lock-unlocked.png") ?>
-                    <? else: ?> 
-                        <?= Assets::img("icons/16/grey/lock-locked.png") ?>
-                    <? endif; ?>
+            <? if ($type['needs_self_assign']): ?>
+                <? if ($group->selfassign): ?>
+                    <?= Assets::img("icons/16/grey/lock-unlocked.png") ?>
+                <? else: ?> 
+                    <?= Assets::img("icons/16/grey/lock-locked.png") ?>
                 <? endif; ?>
+            <? endif; ?>
+            <? if ($tutor): ?>
                 <a class='modal' title="<?= _('Gruppe ändern') ?>" href="<?= $controller->url_for("show/editGroup/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/edit.png", tooltip2(_('Gruppe ändern'))) ?>
                 </a>
@@ -36,12 +36,12 @@
             <? else: ?>
                 <? if ($type['needs_self_assign']): ?>
                     <? if ($group->isMember() && $group->selfassign): ?>
-                        <a href="<?= $group->path['leave'] ?>">
+                        <a href="<?= $controller->url_for("show/leaveGroup/{$group->id}") ?>">
                             <?= Assets::img("icons/16/blue/door-leave.png", tooltip2(_('Gruppe verlassen'))) ?>
                         </a>
                     <? endif; ?>
                     <? if ($group->userMayJoin($user_id)): ?>
-                        <a href="<?= $group->path['join'] ?>">
+                        <a href="<?= $controller->url_for("show/joinGroup/{$group->id}") ?>">
                             <?= Assets::img("icons/16/blue/door-enter.png", tooltip2(_('Gruppe beitreten'))) ?>
                         </a>
                     <? endif; ?>

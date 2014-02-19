@@ -497,7 +497,7 @@ class ShowController extends StudipController {
                 'needs_size' => true,
                 'needs_self_assign' => true,
                 'edit' => function ($user_id) {
-            return $GLOBALS['perm']->have_studip_perm('admin', $_SESSION['SessionSeminar']) && !LockRules::Check($_SESSION['SessionSeminar'], 'groups');
+            return $GLOBALS['perm']->have_studip_perm('dozent', $_SESSION['SessionSeminar']) && !LockRules::Check($_SESSION['SessionSeminar'], 'groups');
         },
                 'redirect' => function () {
             $GLOBALS['view_mode'] = "inst";
