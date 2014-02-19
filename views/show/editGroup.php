@@ -20,8 +20,9 @@
         </label>
     <? endforeach; ?>
     <? if ($type['needs_self_assign']): ?>
-        <label class="caption"><?= _('Selbsteintrag') ?>
+        <label class="caption">
             <input name="selfassign" type="checkbox" value="1" <?= $group->selfassign ? "CHECKED" : "" ?>>
+            <?= _('Selbsteintrag') ?>
         </label>
     <? endif; ?>
     <noscript>

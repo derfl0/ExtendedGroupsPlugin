@@ -22,7 +22,7 @@ class ShowController extends StudipController {
         // Set pagelayout
         PageLayout::setHelpKeyword("Basis.Allgemeines");
         PageLayout::setTitle(_("Verwaltung von Funktionen und Gruppen"));
-        Navigation::activateItem('/admin/institute/groups');
+        //Navigation::activateItem('/admin/institute/groups');
 
         $this->setType();
 
@@ -494,8 +494,8 @@ class ShowController extends StudipController {
                 'view' => function ($user_id) {
             return true;
         },
-                'needs_size' => false,
-                'needs_self_assign' => false,
+                'needs_size' => true,
+                'needs_self_assign' => true,
                 'edit' => function ($user_id) {
             return $GLOBALS['perm']->have_studip_perm('admin', $_SESSION['SessionSeminar']) && !LockRules::Check($_SESSION['SessionSeminar'], 'groups');
         },
