@@ -1,6 +1,6 @@
 <? foreach ($group->members->orderBy('position') as $user): ?>
     <tr data-userid="<?= $user->user_id ?>">
-        <td class="dragHandle"></td>
+        <td></td>
         <td><?= $user->position + 1 ?></td>
         <td><?= $user->avatar() ?></td>
         <td><?= $user->name() ?></td>
