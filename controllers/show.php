@@ -22,7 +22,7 @@ class ShowController extends StudipController {
         // Set pagelayout
         PageLayout::setHelpKeyword("Basis.Allgemeines");
         PageLayout::setTitle(_("Verwaltung von Funktionen und Gruppen"));
-        //Navigation::activateItem('/admin/institute/groups');
+        Navigation::activateItem('/course/groups');
 
         $this->setType();
 
@@ -476,7 +476,7 @@ class ShowController extends StudipController {
             'inst' => array(
                 'name' => _('Institut'),
                 'after_user_add' => function ($user_id) {
-            $newInstUser = new InstituteMember(array($user_id, $_SESSION['SessionSeminar']));
+            $newInstUser = new CourseMember(array($user_id, $_SESSION['SessionSeminar']));
             if ($newInstUser->isNew()) {
                 $user = new User($user_id);
                 $newInstUser->inst_perms = $user->perms;

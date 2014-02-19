@@ -33,7 +33,7 @@ class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, Syste
         $tab->setImage(Assets::image_path("icons/16/white/group3"));
         $tab->setActiveImage("icons/16/black/group3");
         $this->tab = $tab;
-        return array('teams' => $tab);
+        return array('groups' => $tab);
     }
 
     public function getNotificationObjects($course_id, $since, $user_id) {
