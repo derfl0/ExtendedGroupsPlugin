@@ -3,12 +3,6 @@
     <label class="caption"><?= _('Gruppenname') ?>
         <input name="name" required="true" class="groupname" type="text" size="50" placeholder="<?= _('Mitarbeiterinnen und Mitarbeiter') ?>" value="<?= formatReady($group->name) ?>" >
     </label>
-    <label class="caption"><?= _('Weibliche Bezeichnung') ?>
-        <input name="name_w" type="text" size="50" placeholder="<?= _('Mitarbeiterin') ?>" value="<?= formatReady($group->name_w) ?>" >
-    </label>
-    <label class="caption"><?= _('Männliche Bezeichnung') ?>
-        <input name="name_m" type="text" size="50" placeholder="<?= _('Mitarbeiter') ?>" value="<?= formatReady($group->name_m) ?>" >
-    </label>
     <? if ($type['needs_size']): ?>
         <label class="caption"><?= _('Größe') ?>
             <input name="size" type="text" size="10" placeholder="<?= _('Unbegrenzt') ?>" value="<?= formatReady($group->size) ?>" >
