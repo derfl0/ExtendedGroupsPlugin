@@ -107,7 +107,7 @@ class ShowController extends StudipController {
         $lastSearchPreset = Request::isXHR() ? studip_utf8decode(Request::get('last_search_preset')) : Request::get('last_search_preset');
         if (($this->searchPreset == "inst" && $lastSearchPreset != "inst") || !Request::get('not_first_call')) { // ugly
             // search with preset
-            $this->selectablePersons = User::findMany(Institute::find($_SESSION['SessionSeminar'])->members->pluck('user_id'));
+            $this->selectablePersons = User::findMany(Course::find($_SESSION['SessionSeminar'])->members->pluck('user_id'));
             // reset search input, because a preset is used
             $this->search = "";
         } elseif ($this->search != $lastSearch || Request::submitted('submit_search')) {
