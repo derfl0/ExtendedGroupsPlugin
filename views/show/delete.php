@@ -1,4 +1,4 @@
-<form method="post" action="<?= $controller->url_for("admin/statusgroups/delete/{$group->id}/{$user->user_id}") ?>">
+<form method="post" action="<?= $controller->url_for("show/delete/{$group->id}/{$user->user_id}") ?>">
     <?= CSRFProtection::tokenTag() ?>
     <?= sprintf(_('%s wirklich aus %s austragen?'), $user->getFullname(), $group->name) ?>
     <br>

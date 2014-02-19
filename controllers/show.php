@@ -14,7 +14,7 @@ class ShowController extends StudipController {
         parent::before_filter($action, $args);
 
         if (Request::submitted('abort')) {
-            $this->redirect('admin/statusgroups/index');
+            $this->redirect('show/index');
         }
 
         $this->user_id = $GLOBALS['user']->user_id;
@@ -63,7 +63,7 @@ class ShowController extends StudipController {
      * @param string group id
      */
     public function editGroup_action($group_id = null) {
-        $this->group = new Statusgruppen($group_id);
+        $this->group = new ExtendedStatusgroup($group_id);
         $this->loadGroups();
     }
 
@@ -87,7 +87,7 @@ class ShowController extends StudipController {
 
         // set infobox
         $this->setInfoBoxImage('infobox/groups.jpg');
-        $this->addToInfobox(_('Aktionen'), "<a href='" . $this->url_for('admin/statusgroups') . "'>" . _('Zurück') . "</a>", 'icons/16/black/arr_1left.png');
+        $this->addToInfobox(_('Aktionen'), "<a href='" . $this->url_for('show') . "'>" . _('Zurück') . "</a>", 'icons/16/black/arr_1left.png');
 
         // load current group members on first call
         $this->selectedPersons = array();
@@ -202,13 +202,13 @@ class ShowController extends StudipController {
                 $this->selectedPersons[] = $user;
             }
             PageLayout::postMessage(MessageBox::success(_('Die Mitglieder wurden gespeichert.')));
-            $this->redirect('admin/statusgroups/index#group-' . $group_id);
+            $this->redirect('show/index#group-' . $group_id);
         }
 
 
         // abort changes
         if (Request::submitted('abort')) {
-            $this->redirect('admin/statusgroups/index');
+            $this->redirect('show/index');
         }
 
         $this->selectablePersons = new SimpleCollection($this->selectablePersons);
@@ -290,7 +290,7 @@ class ShowController extends StudipController {
 
             //goodbye group
             $this->group->delete();
-            $this->redirect('admin/statusgroups/index');
+            $this->redirect('show/index');
         }
     }
 
@@ -303,7 +303,7 @@ class ShowController extends StudipController {
         if (Request::submitted('confirm')) {
             CSRFProtection::verifySecurityToken();
             $this->group->sortMembersAlphabetic();
-            $this->redirect('admin/statusgroups/index');
+            $this->redirect('show/index');
         }
     }
 
@@ -325,7 +325,7 @@ class ShowController extends StudipController {
         if (Request::submitted('confirm')) {
             CSRFProtection::verifySecurityToken();
             $this->group->removeAllUsers();
-            $this->redirect('admin/statusgroups/index');
+            $this->redirect('show/index');
         }
     }
 
@@ -338,7 +338,7 @@ class ShowController extends StudipController {
      */
 
     private function loadGroups() {
-        $this->groups = Statusgruppen::findBySQL('range_id = ? ORDER BY position', array($_SESSION['SessionSeminar']));
+        $this->groups = ExtendedStatusgroup::findBySQL('range_id = ? ORDER BY position', array($_SESSION['SessionSeminar']));
     }
 
     /*
@@ -367,7 +367,7 @@ class ShowController extends StudipController {
         if (Request::isXhr()) {
             $this->render_action('_members');
         } else {
-            $this->redirect('admin/statusgroups');
+            $this->redirect('show');
         }
     }
 
@@ -376,9 +376,9 @@ class ShowController extends StudipController {
      */
 
     private function setAjaxPaths() {
-        $this->path['ajax_move'] = $this->url_for('admin/statusgroups/move');
-        $this->path['ajax_add'] = $this->url_for('admin/statusgroups/add');
-        $this->path['ajax_search'] = $this->url_for('admin/statusgroups/search');
+        $this->path['ajax_move'] = $this->url_for('show/move');
+        $this->path['ajax_add'] = $this->url_for('show/add');
+        $this->path['ajax_search'] = $this->url_for('show/search');
     }
 
     /*
@@ -404,7 +404,7 @@ class ShowController extends StudipController {
         $this->setInfoBoxImage('infobox/groups.jpg');
 
         $this->addToInfobox(_('Aktionen'), "<a title='" . _('Neue Gruppe anlegen') . "' class='modal' href='" . $this->url_for("show/editGroup") . "'>" . _('Neue Gruppe anlegen') . "</a>", 'icons/16/black/add/group3.png');
-        $this->addToInfobox(_('Aktionen'), "<a title='" . _('Gruppenreihenfolge ändern') . "' class='modal' href='" . $this->url_for("admin/statusgroups/sortGroups") . "'>" . _('Gruppenreihenfolge ändern') . "</a>", 'icons/16/black/arr_2down.png');
+        $this->addToInfobox(_('Aktionen'), "<a title='" . _('Gruppenreihenfolge ändern') . "' class='modal' href='" . $this->url_for("show/sortGroups") . "'>" . _('Gruppenreihenfolge ändern') . "</a>", 'icons/16/black/arr_2down.png');
     }
 
     /*

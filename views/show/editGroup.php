@@ -37,5 +37,5 @@
         </select>
     </label>
     <?= Studip\Button::create(_('Speichern'), 'save') ?>
-    <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('dispatch.php/admin/statusgroups/index'), array('class' => 'abort')) ?>
+    <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('dispatch.php/show/index'), array('class' => 'abort')) ?>
 </form>

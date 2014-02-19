@@ -3,5 +3,5 @@
     <?= sprintf(_('Gruppe %s wirklich leeren?'), $group->name) ?>
     <br>
     <?= Studip\Button::create(_('Leeren'), 'confirm') ?>
-    <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('dispatch.php/admin/statusgroups/index')) ?>
+    <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('dispatch.php/show/index')) ?>
 </form>
