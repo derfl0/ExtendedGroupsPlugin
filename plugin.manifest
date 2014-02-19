@@ -1,0 +1,7 @@
+pluginname=ExtendedGroups
+pluginclassname=ExtendedgroupsPlugin
+origin=intelec
+version=0.1a
+studipMinVersion=2.5
+dbscheme=install.sql
+uninstalldbscheme=uninstall.sql
