@@ -31,7 +31,7 @@ class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, Syste
     public function getTabNavigation($course_id) {
         $tab = new AutoNavigation(_("Gruppen"), PluginEngine::getLink($this, array(), "show"));
         $tab->setImage(Assets::image_path("icons/16/white/group3"));
-        $tab->setActiveImage("icons/16/black/group3");
+        $tab->setActiveImage("icons/16/black/group2");
         $this->tab = $tab;
         return array('groups' => $tab);
     }
