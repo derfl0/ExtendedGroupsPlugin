@@ -7,7 +7,7 @@
             </tr>
         <? endif; ?>
         <tr data-userid="<?= $user->user_id ?>">
-            <td class="dragHandle"></td>
+            <td <?= $tutor ? 'class="dragHandle"' : '' ?>></td>
             <td><?= $user->position + 1 ?></td>
             <td><?= $user->avatar() ?></td>
             <td><?= $user->name() ?></td>
