@@ -253,7 +253,21 @@ class ShowController extends StudipController {
         $group = Request::get('group');
         $user_id = Request::get('user');
         $pos = Request::get('pos');
+
+        // Load statusgroup
         $statusgroup = new ExtendedStatusgroup($group);
+
+        /*
+         * If we dragged the poor guy into the waitinglist, we need to decrease
+         * his position by one because the header is not a real place
+         */
+        if ($pos > $statusgroup->size) {
+            $pos--;
+        }
+
+        // Nobody should be dragged to a zero place
+        $pos = max(array(0, $pos));
+
         $statusgroup->moveUser($user_id, $pos);
         $this->type['after_user_move']($user_id);
         $this->users = $statusgroup->members;
@@ -382,6 +396,10 @@ class ShowController extends StudipController {
      */
 
     private function afterFilter() {
+
+        // Load rights
+        $this->tutor = $this->type['edit']($this->user_id);
+
         if (Request::isXhr()) {
             $this->render_action('_members');
         } else {
