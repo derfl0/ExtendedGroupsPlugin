@@ -12,14 +12,17 @@
  * @author intelec
  */
 class ExtendedStatusgroup extends Statusgruppen {
-    
+
     // Seminar groups have no datafields
     public function getDatafields() {
         return array();
     }
-    
-    // Leave a statusgroup
-    public function leave() {
-        
+
+    /**
+     * Function of parent is broken ;)
+     */
+    public function hasSpace() {
+        return $this->selfassign && (!$this->size || count($this->members) < $this->size);
     }
+
 }
