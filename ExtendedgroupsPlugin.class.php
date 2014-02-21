@@ -14,21 +14,19 @@ class ExtendedgroupsPlugin extends StudIPPlugin implements StandardPlugin, Syste
 
     public function __construct() {
         parent::__construct();
+    }
 
-        /* $navigation = new AutoNavigation(_('ExtendedGroups'));
-          $navigation->setURL(PluginEngine::GetURL($this, array(), 'show'));
-          $navigation->setImage(Assets::image_path('blank.gif'));
-          Navigation::addItem('/extendedgroupsplugin', $navigation); */
-
+    public function initialize() {
         PageLayout::addStylesheet($this->getPluginURL() . '/assets/style.css');
         PageLayout::addScript($this->getPluginURL() . '/assets/application.js');
     }
 
-    public function initialize() {
-        
-    }
-
     public function getTabNavigation($course_id) {
+
+        // Deactivate old navi
+        Navigation::removeItem('/course/members/view_groups');
+        Navigation::removeItem('/course/members/edit_groups');
+
         $tab = new AutoNavigation(_("Gruppen"), PluginEngine::getLink($this, array(), "show"));
         $tab->setImage(Assets::image_path("icons/16/white/group3"));
         $tab->setActiveImage("icons/16/black/group3");
