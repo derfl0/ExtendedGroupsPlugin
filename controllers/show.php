@@ -226,6 +226,24 @@ class ShowController extends StudipController {
         }
     }
 
+    public function leaveGroup_action($id) {
+        global $user;
+        $group = ExtendedStatusgroup::find($id);
+        if ($group->selfassign) {
+            $group->removeUser($user->user_id);
+        }
+        $this->redirect('show/index');
+    }
+
+    public function joinGroup_action($id) {
+        global $user, $perm;
+        $group = ExtendedStatusgroup::find($id);
+        if ($perm->have_studip_perm('autor', $_SESSION['SessionSeminar'])) {
+            $group->addUser($user->user_id);
+        }
+        $this->redirect('show/index');
+    }
+
     /**
      * Ajax action to move a user
      */

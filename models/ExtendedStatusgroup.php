@@ -17,4 +17,9 @@ class ExtendedStatusgroup extends Statusgruppen {
     public function getDatafields() {
         return array();
     }
+    
+    // Leave a statusgroup
+    public function leave() {
+        
+    }
 }
