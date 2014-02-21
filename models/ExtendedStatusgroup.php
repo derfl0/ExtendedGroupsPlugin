@@ -12,7 +12,7 @@
  * @author intelec
  */
 class ExtendedStatusgroup extends Statusgruppen {
-    
+
     public function __construct($id = null) {
         $this->has_one['additional'] = array(
             "class_name" => "StatusgruppenAdditional",
@@ -32,6 +32,14 @@ class ExtendedStatusgroup extends Statusgruppen {
      */
     public function hasSpace() {
         return $this->selfassign && (!$this->size || count($this->members) < $this->size || $this->additional->waitinglist);
+    }
+
+    /**
+     * We need to extend the children as well
+     */
+    public function getChildren() {
+        $result = self::findBySQL('range_id = ? ORDER BY position', array($this->id));
+        return $result ? : array();
     }
 
 }

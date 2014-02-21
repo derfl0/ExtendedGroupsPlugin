@@ -30,7 +30,7 @@ class ShowController extends StudipController {
         if (Request::isXhr()) {
             $this->set_content_type('text/html;Charset=windows-1252');
             $this->set_layout(null);
-            $this->group = new Statusgruppen(Request::get('group'));
+            $this->group = new ExtendedStatusgroup(Request::get('group'));
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             PageLayout::addScript(Assets::javascript_path('app_admin_statusgroups.js'));
@@ -83,7 +83,7 @@ class ShowController extends StudipController {
      */
     public function memberAdd_action($group_id = null) {
         // load selected group
-        $this->group = new Statusgruppen($group_id);
+        $this->group = new ExtendedStatusgroup($group_id);
 
         // set infobox
         $this->setInfoBoxImage('infobox/groups.jpg');
@@ -195,7 +195,7 @@ class ShowController extends StudipController {
             $this->selectablePersons = array();
 
             // reload current group members
-            $this->group = new Statusgruppen($group_id);
+            $this->group = new ExtendedStatusgroup($group_id);
             $this->currentGroupMembers = array();
             foreach ($this->group->members as $member) {
                 $user = new User($member->user_id);
@@ -280,7 +280,7 @@ class ShowController extends StudipController {
      */
     public function delete_action($group_id, $user_id) {
         $this->check('edit');
-        $this->group = new Statusgruppen($group_id);
+        $this->group = new ExtendedStatusgroup($group_id);
         $this->user = new User($user_id);
         if (Request::submitted('confirm')) {
             $this->group->removeUser($user_id);
@@ -294,7 +294,7 @@ class ShowController extends StudipController {
      */
     public function deleteGroup_action($group_id) {
         $this->check('edit');
-        $this->group = new Statusgruppen($group_id);
+        $this->group = new ExtendedStatusgroup($group_id);
         if (Request::submitted('confirm')) {
             CSRFProtection::verifySecurityToken();
 
@@ -317,7 +317,7 @@ class ShowController extends StudipController {
      */
     public function sortAlphabetic_action($group_id) {
         $this->check('edit');
-        $this->group = new Statusgruppen($group_id);
+        $this->group = new ExtendedStatusgroup($group_id);
         if (Request::submitted('confirm')) {
             CSRFProtection::verifySecurityToken();
             $this->group->sortMembersAlphabetic();
@@ -339,7 +339,7 @@ class ShowController extends StudipController {
      */
     public function truncate_action($id) {
         $this->check('edit');
-        $this->group = new Statusgruppen($id);
+        $this->group = new ExtendedStatusgroup($id);
         if (Request::submitted('confirm')) {
             CSRFProtection::verifySecurityToken();
             $this->group->removeAllUsers();
@@ -367,7 +367,7 @@ class ShowController extends StudipController {
         $i = 0;
         if ($obj) {
             foreach ($obj as $group) {
-                $statusgroup = new Statusgruppen($group->id);
+                $statusgroup = new ExtendedStatusgroup($group->id);
                 $statusgroup->range_id = $parent;
                 $statusgroup->position = $i;
                 $statusgroup->store();
@@ -421,8 +421,16 @@ class ShowController extends StudipController {
     private function setInfoBox() {
         $this->setInfoBoxImage('infobox/groups.jpg');
 
-        $this->addToInfobox(_('Aktionen'), "<a title='" . _('Neue Gruppe anlegen') . "' class='modal' href='" . $this->url_for("show/editGroup") . "'>" . _('Neue Gruppe anlegen') . "</a>", 'icons/16/black/add/group3.png');
-        $this->addToInfobox(_('Aktionen'), "<a title='" . _('Gruppenreihenfolge ändern') . "' class='modal' href='" . $this->url_for("show/sortGroups") . "'>" . _('Gruppenreihenfolge ändern') . "</a>", 'icons/16/black/arr_2down.png');
+        if ($this->type['edit']($this->user_id)) {
+            $this->addToInfobox(_('Aktionen'), "<a title='" . _('Neue Gruppe anlegen') . "' class='modal' href='" . $this->url_for("show/editGroup") . "'>" . _('Neue Gruppe anlegen') . "</a>", 'icons/16/black/add/group3.png');
+            $this->addToInfobox(_('Aktionen'), "<a title='" . _('Gruppenreihenfolge ändern') . "' class='modal' href='" . $this->url_for("show/sortGroups") . "'>" . _('Gruppenreihenfolge ändern') . "</a>", 'icons/16/black/arr_2down.png');
+            $this->addToInfobox(_('Icons'), _("Diese Gruppe ist für Benutzer sichtbar"), 'icons/16/grey/visibility-visible.png');
+            $this->addToInfobox(_('Icons'), _("Diese Gruppe ist für Benutzer unsichtbar"), 'icons/16/grey/visibility-invisible.png');
+        }
+        $this->addToInfobox(_('Icons'), _("Diese Gruppe ist offen. Benutzer können sich jederzeit eintragen"), 'icons/16/grey/lock-unlocked.png');
+        $this->addToInfobox(_('Icons'), _("Diese Gruppe ist geschlossen. Benutzer können sich nicht selbständig in dieser Gruppe anmelden"), 'icons/16/grey/lock-locked.png');
+        $this->addToInfobox(_('Icons'), _("Diese Gruppe ist exklusiv. Benutzer können sich maximal in einer exklusiven Gruppe anmelden"), 'icons/16/grey/star.png');
+        $this->addToInfobox(_('Icons'), _("Diese Gruppe verfügt über eine Warteliste. Benutzer können sich über die eigentliche Gruppengröße hinaus eintragen und rücken automatisch nach"), 'icons/16/grey/log.png');
     }
 
     /*

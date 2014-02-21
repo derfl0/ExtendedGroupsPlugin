@@ -15,7 +15,7 @@
                 switch ($group->selfassign):
                     case 0:
                         ?>
-                        <?= Assets::img("icons/16/grey/lock-unlocked.png", tooltip2(_('Diese Gruppe ist offen. Benutzer können sich jederzeit eintragen.'))) ?>
+                        <?= Assets::img("icons/16/grey/lock-unlocked.png", tooltip2(_('Diese Gruppe ist offen. Benutzer können sich jederzeit eintragen'))) ?>
                         <?php break; ?>
                     <? case 1: ?>
                         <?= Assets::img("icons/16/grey/lock-locked.png", tooltip2(_('Diese Gruppe ist geschlossen. Benutzer können sich nicht selbständig in dieser Gruppe anmelden'))) ?>
