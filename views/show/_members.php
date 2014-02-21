@@ -1,7 +1,5 @@
 <? foreach ($group->members->orderBy('position') as $user): ?>
     <? if ($user->position == $group->size): ?>
-        </tbody>
-        <tbody>
             <tr>
                 <th colspan="5">
                     <?= _('Warteliste') ?> (<?= count($group->members) - $group->size ?>)
@@ -9,7 +7,7 @@
             </tr>
         <? endif; ?>
         <tr data-userid="<?= $user->user_id ?>">
-            <td></td>
+            <td class="dragHandle"></td>
             <td><?= $user->position + 1 ?></td>
             <td><?= $user->avatar() ?></td>
             <td><?= $user->name() ?></td>

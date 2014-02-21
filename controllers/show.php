@@ -253,7 +253,7 @@ class ShowController extends StudipController {
         $group = Request::get('group');
         $user_id = Request::get('user');
         $pos = Request::get('pos');
-        $statusgroup = new statusgruppen($group);
+        $statusgroup = new ExtendedStatusgroup($group);
         $statusgroup->moveUser($user_id, $pos);
         $this->type['after_user_move']($user_id);
         $this->users = $statusgroup->members;
@@ -269,7 +269,7 @@ class ShowController extends StudipController {
         $user_id = Request::get('user');
         $user = new StatusgruppeUser(array($group, $user_id));
         $user->store();
-        $statusgroup = new statusgruppen($group);
+        $statusgroup = new ExtendedStatusgroup($group);
         $this->users = $statusgroup->members;
         $this->type['after_user_add']($user_id);
         $this->afterFilter();
