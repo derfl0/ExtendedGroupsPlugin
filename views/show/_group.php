@@ -9,9 +9,6 @@
     </colgroup>
     <caption>
         <?= $numbers[$group->id] ?> <?= formatReady($group->name) ?>
-        <? if ($type['needs_size']): ?>
-            <?= $group->getPlaces() ?> 
-        <? endif; ?>
         <span class="actions">
             <? if ($type['needs_self_assign']): ?>
                 <? if ($group->selfassign): ?>
@@ -61,7 +58,8 @@
     </caption>
     <thead>
         <tr>
-            <th colspan="4"><?= count($group->members) ?> <?= count($group->members) != 1 ? _('Mitglieder') : _('Mitglied'); ?></th>
+            <th colspan="4">
+            <?= min(array(count($group->members), $group->size)) ?> <?= count($group->members) != 1 ? _('Mitglieder') : _('Mitglied'); ?>
             <th class="actions"></th>
         </tr>
     </thead>

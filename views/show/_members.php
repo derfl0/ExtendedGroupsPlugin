@@ -4,7 +4,7 @@
         <tbody>
             <tr>
                 <th colspan="5">
-                    <?= _('Warteliste') ?>
+                    <?= _('Warteliste') ?> (<?= count($group->members) - $group->size ?>)
                 </th>
             </tr>
         <? endif; ?>
