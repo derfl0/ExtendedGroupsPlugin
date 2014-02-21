@@ -15,12 +15,18 @@
         <span class="actions">
             <? if ($type['needs_self_assign']): ?>
                 <? if ($group->selfassign): ?>
-                    <?= Assets::img("icons/16/grey/lock-unlocked.png") ?>
+                    <?= Assets::img("icons/16/grey/lock-unlocked.png", tooltip2(_('Diese Gruppe ist offen. Benutzer können sich jederzeit eintragen.'))) ?>
                 <? else: ?> 
-                    <?= Assets::img("icons/16/grey/lock-locked.png") ?>
+                    <?= Assets::img("icons/16/grey/lock-locked.png", tooltip2(_('Diese Gruppe ist geschlossen. Benutzer können sich nicht selbständig in dieser Gruppe anmelden'))) ?>
                 <? endif; ?>
             <? endif; ?>
+            <? if ($group->additional->waitinglist): ?>
+                <?= Assets::img("icons/16/grey/log.png", tooltip2(_('Diese Gruppe verfügt über eine Warteliste. Benutzer können sich über die eigentliche Gruppengröße hinaus eintragen und rücken automatisch nach'))) ?>
+            <? endif; ?>
             <? if ($tutor): ?>
+                <? if ($group->additional->visible): ?>
+                    <?= Assets::img("icons/16/grey/visibility-visible.png", tooltip2(_('Diese Gruppe ist für Benutzer sichtbar'))) ?>
+                <? endif; ?>
                 <a class='modal' title="<?= _('Gruppe ändern') ?>" href="<?= $controller->url_for("show/editGroup/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/edit.png", tooltip2(_('Gruppe ändern'))) ?>
                 </a>
