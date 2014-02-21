@@ -444,6 +444,7 @@ class ShowController extends StudipController {
             $group->position = Request::get('position') ? : $group->position;
             $group->selfassign = Request::get('selfassign') ? 1 : 0;
             $group->additional->waitinglist = Request::submitted('waitinglist');
+            $group->additional->visible = Request::submitted('visible');
             $group->store();
             $group->setDatafields(Request::getArray('datafields') ? : array());
         }

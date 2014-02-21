@@ -19,10 +19,14 @@
             <?= _('Selbsteintrag') ?>
         </label>
     <? endif; ?>
-        <label class="caption">
-            <input name="waitinglist" type="checkbox" value="1" <?= $group->additional->waitinglist ? "CHECKED" : "" ?>>
-            <?= _('Warteliste') ?>
-        </label>
+    <label class="caption">
+        <input name="waitinglist" type="checkbox" value="1" <?= $group->additional->waitinglist ? "CHECKED" : "" ?>>
+        <?= _('Warteliste') ?>
+    </label>
+    <label class="caption">
+        <input name="visible" type="checkbox" value="1" <?= $group->additional->visible ? "CHECKED" : "" ?>>
+        <?= _('Sichtbar') ?>
+    </label>
     <noscript>
     <label class="caption"><?= _('Position') ?>
         <input name="size" type="text" size="10" placeholder="<?= _('0') ?>" value="<?= formatReady($group->position) ?>" >
