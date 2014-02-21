@@ -12,6 +12,11 @@
  * @author intelec
  */
 class ExtendedStatusgroup extends Statusgruppen {
+    
+    public function __construct($id = null) {
+        
+        parent::__construct($id);
+    }
 
     // Seminar groups have no datafields
     public function getDatafields() {
