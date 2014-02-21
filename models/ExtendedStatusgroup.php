@@ -14,7 +14,11 @@
 class ExtendedStatusgroup extends Statusgruppen {
     
     public function __construct($id = null) {
-        
+        $this->has_one['additional'] = array(
+            "class_name" => "StatusgruppenAdditional",
+            "on_store" => "store",
+            "on_delete" => "delete"
+        );
         parent::__construct($id);
     }
 
@@ -27,7 +31,7 @@ class ExtendedStatusgroup extends Statusgruppen {
      * Function of parent is broken ;)
      */
     public function hasSpace() {
-        return $this->selfassign && (!$this->size || count($this->members) < $this->size);
+        return $this->selfassign && (!$this->size || count($this->members) < $this->size || $this->additional->waitinglist);
     }
 
 }

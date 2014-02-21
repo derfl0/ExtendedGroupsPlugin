@@ -432,7 +432,7 @@ class ShowController extends StudipController {
     private function checkForChangeRequests() {
         if (Request::submitted('save')) {
             $this->check('edit');
-            $group = new Statusgruppen(Request::get('id'));
+            $group = new ExtendedStatusgroup(Request::get('id'));
             if ($group->isNew()) {
                 $group->range_id = $_SESSION['SessionSeminar'];
             }
@@ -443,6 +443,7 @@ class ShowController extends StudipController {
             $group->range_id = Request::get('range_id') ? : $group->range_id;
             $group->position = Request::get('position') ? : $group->position;
             $group->selfassign = Request::get('selfassign') ? 1 : 0;
+            $group->additional->waitinglist = Request::submitted('waitinglist');
             $group->store();
             $group->setDatafields(Request::getArray('datafields') ? : array());
         }

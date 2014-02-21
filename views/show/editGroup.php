@@ -19,6 +19,10 @@
             <?= _('Selbsteintrag') ?>
         </label>
     <? endif; ?>
+        <label class="caption">
+            <input name="waitinglist" type="checkbox" value="1" <?= $group->additional->waitinglist ? "CHECKED" : "" ?>>
+            <?= _('Warteliste') ?>
+        </label>
     <noscript>
     <label class="caption"><?= _('Position') ?>
         <input name="size" type="text" size="10" placeholder="<?= _('0') ?>" value="<?= formatReady($group->position) ?>" >
