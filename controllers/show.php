@@ -442,7 +442,7 @@ class ShowController extends StudipController {
             $group->size = Request::get('size');
             $group->range_id = Request::get('range_id') ? : $group->range_id;
             $group->position = Request::get('position') ? : $group->position;
-            $group->selfassign = Request::get('selfassign') ? 1 : 0;
+            $group->selfassign = Request::get('selfassign');
             $group->additional->waitinglist = Request::submitted('waitinglist');
             $group->additional->visible = Request::submitted('visible');
             $group->store();

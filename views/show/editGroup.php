@@ -13,12 +13,14 @@
             <?= $field->getHTML('datafields') ?>
         </label>
     <? endforeach; ?>
-    <? if ($type['needs_self_assign']): ?>
         <label class="caption">
-            <input name="selfassign" type="checkbox" value="1" <?= $group->selfassign ? "CHECKED" : "" ?>>
-            <?= _('Selbsteintrag') ?>
+        <?= _('Eintragstyp') ?>
+            <select  name="selfassign">
+                <option value="1" <?= $group->selfassign == 1 ? "SELECTED" : "" ?>><?= _('Offen') ?></option>
+                <option value="2" <?= $group->selfassign == 2 ? "SELECTED" : "" ?>><?= _('Exklusiv') ?></option>
+                <option value="0" <?= $group->selfassign == 0 ? "SELECTED" : "" ?>><?= _('Geschlossen') ?></option>
+            </select>
         </label>
-    <? endif; ?>
     <label class="caption">
         <input name="waitinglist" type="checkbox" value="1" <?= $group->additional->waitinglist ? "CHECKED" : "" ?>>
         <?= _('Warteliste') ?>
