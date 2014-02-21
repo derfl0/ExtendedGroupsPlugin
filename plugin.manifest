@@ -1,6 +1,7 @@
 pluginname=ExtendedGroups
 pluginclassname=ExtendedgroupsPlugin
 origin=intelec
+description=Erweitert Gruppen um die möglichkeit, Wartelisten einzurichten.
 version=0.1a
 studipMinVersion=2.5
 dbscheme=install.sql
