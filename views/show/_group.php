@@ -38,9 +38,11 @@
                 <a class='modal' title="<?= _('Gruppe löschen') ?>" href="<?= $controller->url_for("show/deleteGroup/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/trash.png", tooltip2(_('Gruppe löschen'))) ?>
                 </a>
-                <a class='modal' title="<?= _('Gruppe alphabetisch sortieren') ?>" href="<?= $controller->url_for("show/sortAlphabetic/{$group->id}") ?>">
-                    <?= Assets::img("icons/16/blue/arr_2down.png", tooltip2(_('Gruppe alphabetisch sortieren'))) ?>
-                </a>
+                <? if (!$group->additional->waitinglist): ?>
+                    <a class='modal' title="<?= _('Gruppe alphabetisch sortieren') ?>" href="<?= $controller->url_for("show/sortAlphabetic/{$group->id}") ?>">
+                        <?= Assets::img("icons/16/blue/arr_2down.png", tooltip2(_('Gruppe alphabetisch sortieren'))) ?>
+                    </a>
+                <? endif; ?>
             <? else: ?>
                 <? if ($type['needs_self_assign']): ?>
                     <? if ($group->isMember() && $group->selfassign): ?>
