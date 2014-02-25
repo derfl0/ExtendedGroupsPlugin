@@ -1,5 +1,5 @@
 <? foreach ($group->members->orderBy('position') as $user): ?>
-    <? if ($user->position == $group->size): ?>
+    <? if ($user->position == $group->size && $group->size): ?>
             <tr>
                 <th colspan="5">
                     <?= _('Warteliste') ?> (<?= count($group->members) - $group->size ?>)

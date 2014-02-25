@@ -66,7 +66,7 @@
     <thead>
         <tr>
             <th colspan="4">
-                <?= min(array(count($group->members), $group->size)) ?> <?= count($group->members) != 1 ? _('Mitglieder') : _('Mitglied'); ?>
+                <?= min(array(count($group->members), $group->size ? : PHP_INT_MAX)) ?> <?= count($group->members) != 1 ? _('Mitglieder') : _('Mitglied'); ?>
             <th class="actions"></th>
         </tr>
     </thead>
