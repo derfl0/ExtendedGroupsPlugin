@@ -3,5 +3,5 @@
     <?= sprintf(_('%s wirklich aus %s austragen?'), $user->getFullname(), $group->name) ?>
     <br>
     <?= Studip\Button::create(_('Entfernen'), 'confirm') ?>
-    <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('show/index'), array('class' => 'abort')) ?>
+    <?= Studip\LinkButton::create(_('Abbrechen'), $controller->url_for('show/index'), array('class' => 'abort')) ?>
 </form>

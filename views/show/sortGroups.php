@@ -26,7 +26,7 @@
     <form class="studip_form" id='order_form' action="<?= $controller->url_for('show') ?>" method="POST">
         <input type='hidden' name='ordering' id='ordering'>
         <?= Studip\Button::create(_('Speichern'), 'order') ?>
-        <?= Studip\LinkButton::create(_('Abbrechen'), URLHelper::getLink('dispatch.php/show/index'), array('class' => 'abort')) ?>
+        <?= Studip\LinkButton::create(_('Abbrechen'), $controller->url_for('show/index'), array('class' => 'abort')) ?>
     </form>
 </div>
 
