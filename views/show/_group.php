@@ -1,5 +1,5 @@
 <a name="group-<?= $group->id ?>"></a>
-<table id="<?= $group->id ?>" class="default moveable" style="margin-top: 30px;">
+<table id="<?= $group->id ?>" class="default moveable inflatable" style="margin-top: 30px;">
     <colgroup>
         <col width="1">
         <col width="1">
