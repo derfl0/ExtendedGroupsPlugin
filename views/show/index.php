@@ -1,6 +1,3 @@
-<? Navigation:
-
-<?= $question ?>
 <style>
     .tree-seperator {
         list-style-type:none;
