@@ -1,9 +1,3 @@
-<style>
-    .tree-seperator {
-        list-style-type:none;
-    }
-</style>
-
 <? foreach ($path as $name => $p): ?>
     <input type="hidden" id="<?= $name ?>" value="<?= $p ?>" />
 <? endforeach; ?>

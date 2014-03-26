@@ -36,6 +36,9 @@
                 <a class='modal' title="<?= _('Gruppe ändern') ?>" href="<?= $controller->url_for("show/editGroup/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/edit.png", tooltip2(_('Gruppe ändern'))) ?>
                 </a>
+                <a class='modal' title="<?= _('Termine anpassen') ?>" href="<?= $controller->url_for("show/termine/{$group->id}") ?>">
+                    <?= Assets::img("icons/16/blue/date.png", tooltip2(_('Termine anpassen'))) ?>
+                </a>
                 <a class='modal' title="<?= _('Mitglieder hinzufügen') ?>" href="<?= $controller->url_for("show/memberAdd/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/add/community.png", tooltip2(_('Mitglieder hinzufügen'))) ?>
                 </a>
@@ -48,6 +51,9 @@
                     </a>
                 <? endif; ?>
             <? else: ?>
+                <a class='modal' title="<?= _('Termine anzeigen') ?>" href="<?= $controller->url_for("show/termine/{$group->id}") ?>">
+                    <?= Assets::img("icons/16/blue/date.png", tooltip2(_('Termine anzeigen'))) ?>
+                </a>
                 <? if ($type['needs_self_assign']): ?>
                     <? if ($group->isMember() && $group->selfassign): ?>
                         <a href="<?= $controller->url_for("show/leaveGroup/{$group->id}") ?>">

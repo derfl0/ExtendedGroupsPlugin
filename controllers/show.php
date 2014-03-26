@@ -42,6 +42,7 @@ class ShowController extends StudipController {
      */
     public function index_action() {
         $this->checkForChangeRequests();
+        $this->updateTermine();
 
         // Do some basic layouting
         PageLayout::addScript('jquery/jquery.tablednd.js');
@@ -55,6 +56,64 @@ class ShowController extends StudipController {
 
         // Check if the viewing user should get the admin interface
         $this->tutor = $this->type['edit']($this->user_id);
+    }
+
+    public function termine_action($group_id) {
+        $db = DBManager::get();
+        $this->termine = $db->fetchAll('SELECT t.*, GROUP_CONCAT(statusgruppe_id) as statusgroups FROM termine t LEFT JOIN termin_related_groups USING (termin_id) WHERE range_id = ? GROUP BY termin_id ORDER BY date', array($_SESSION['SessionSeminar']));
+        foreach ($this->termine as &$termin) {
+            $termin['display'] = strftime('%a. %d.%m.%y %H:%M', $termin['date']) . "-" . strftime('%H:%M', $termin['end_time']);
+            if (!$termin['statusgroups'] || strpos($termin['statusgroups'], $group_id) !== false) {
+                $termin['checked'] = 'checked';
+            }
+        }
+        $this->group = $group_id;
+
+        // Redirect to viewonly if not editable
+        if (!$GLOBALS['perm']->have_studip_perm('tutor', $_SESSION['SessionSeminar'])) {
+            $this->render_action('showTermine');
+        }
+    }
+
+    private function updateTermine() {
+
+        // If we have an updaterequest
+        if (Request::submitted('termine')) {
+
+            CSRFProtection::verifySecurityToken();
+
+            // Cache group id
+            $group = Request::get('group');
+
+            if (!$GLOBALS['perm']->have_studip_perm('tutor', $_SESSION['SessionSeminar'])) {
+                throw new AccessDeniedException();
+            }
+
+            // Prepare SQL
+            $db = DBManager::get();
+            $hasEntry = $db->prepare('SELECT 1 FROM termin_related_groups WHERE termin_id = ? LIMIT 1');
+            $insertEntry = $db->prepare('REPLACE INTO termin_related_groups (termin_id, statusgruppe_id) VALUES (?,?)');
+            $deleteEntry = $db->prepare('DELETE FROM termin_related_groups WHERE termin_id = ? AND statusgruppe_id = ?');
+            $insertOthers = $db->prepare('INSERT INTO termin_related_groups (SELECT ? as termin_id, statusgruppe_id FROM statusgruppen WHERE range_id = ? AND statusgruppe_id != ? )');
+
+            // Work all Termine
+            foreach (Request::getArray('termine') as $termin => $type) {
+                if ($type == 1) {
+                    $hasEntry->execute(array($termin));
+                    if ($hasEntry->fetch(PDO::FETCH_COLUMN)) {
+                        $insertEntry->execute(array($termin, $group));
+                    }
+                } else {
+                    $deleteEntry->execute(array($termin, $group));
+                    $hasEntry->execute(array($termin));
+                    if (!$hasEntry->fetch(PDO::FETCH_COLUMN)) {
+                        $insertOthers->execute(array($termin, $_SESSION['SessionSeminar'], $group));
+                    }
+                }
+            }
+
+            // Fetch all termine that have not been send
+        }
     }
 
     /**
