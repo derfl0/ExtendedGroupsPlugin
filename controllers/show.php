@@ -56,6 +56,24 @@ class ShowController extends StudipController {
 
         // Check if the viewing user should get the admin interface
         $this->tutor = $this->type['edit']($this->user_id);
+
+        // If we have a tutor we need to find all users without statusgroup
+        if ($this->tutor) {
+            $stmt = DBManager::get()->prepare("SELECT a.username FROM seminar_user s
+                JOIN statusgruppen st ON (seminar_id = range_id) 
+                JOIN auth_user_md5 a USING (user_id)
+                LEFT JOIN statusgruppe_user su ON (st.statusgruppe_id = su.statusgruppe_id AND s.user_id = su.user_id)
+                WHERE seminar_id = ?
+                AND (s.status = 'autor' OR s.status = 'user')
+                AND su.user_id IS NULL");
+            $stmt->execute(array(Course::findCurrent()->id));
+            $informUserLink = URLHelper::getLink('sms_send.php', array('filter' => 'send_sms_to_all',
+                        'rec_uname' => $stmt->fetchAll(PDO::FETCH_COLUMN, 0)));
+            if ($stmt->rowCount()) {
+                $this->addToInfobox(_('Aktionen'), "<a title='" . _('Teilnehmenden ohne Gruppe eine Nachricht schicken') . "' href='" . $informUserLink . "'>" . _('Teilnehmenden ohne Gruppe eine Nachricht schicken') . " (" . $stmt->rowCount() . ")</a>", 'icons/16/black/mail.png');
+                $this->addToInfobox(_('Aktionen'), "<a title='" . _('Teilnehmenden ohne Gruppe aus Veranstaltung entfernen') . "' class='modal' href='" . $this->url_for('show/removeUsersWithoutGroup') . "'>" . _('Teilnehmenden ohne Gruppe aus Veranstaltung entfernen') . " (" . $stmt->rowCount() . ")</a>", 'icons/16/black/trash.png');
+            }
+        }
     }
 
     public function termine_action($group_id) {
@@ -72,6 +90,38 @@ class ShowController extends StudipController {
         // Redirect to viewonly if not editable
         if (!$GLOBALS['perm']->have_studip_perm('tutor', $_SESSION['SessionSeminar'])) {
             $this->render_action('showTermine');
+        }
+    }
+
+    public function removeUsersWithoutGroup_action() {
+
+        // Mission abort
+        if (Request::submitted('abort')) {
+            $this->redirect('show/index');
+            return 0;
+        }
+
+        $stmt = DBManager::get()->prepare("SELECT a.* FROM seminar_user s
+                JOIN statusgruppen st ON (seminar_id = range_id) 
+                JOIN auth_user_md5 a USING (user_id)
+                LEFT JOIN statusgruppe_user su ON (st.statusgruppe_id = su.statusgruppe_id AND s.user_id = su.user_id)
+                WHERE seminar_id = ?
+                AND (s.status = 'autor' OR s.status = 'user')
+                AND su.user_id IS NULL");
+        $stmt->execute(array(Course::findCurrent()->id));
+
+        // It's execution time
+        if (Request::submitted('execute')) {
+            while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                CourseMember::deleteBySQL('seminar_id = ? AND user_id = ?', array(Course::findCurrent()->id, $result['user_id']));
+            }
+            $this->redirect('show/index');
+            return 0;
+        }
+
+        $this->users = array();
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->users[] = User::import($result);
         }
     }
 
