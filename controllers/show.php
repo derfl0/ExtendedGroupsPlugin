@@ -59,14 +59,15 @@ class ShowController extends StudipController {
 
         // If we have a tutor we need to find all users without statusgroup
         if ($this->tutor) {
-            $stmt = DBManager::get()->prepare("SELECT a.username FROM seminar_user s
-                JOIN statusgruppen st ON (seminar_id = range_id) 
-                JOIN auth_user_md5 a USING (user_id)
-                LEFT JOIN statusgruppe_user su ON (st.statusgruppe_id = su.statusgruppe_id AND s.user_id = su.user_id)
-                WHERE seminar_id = ?
-                AND (s.status = 'autor' OR s.status = 'user')
-                AND su.user_id IS NULL");
-            $stmt->execute(array(Course::findCurrent()->id));
+            $stmt = DBManager::get()->prepare("SELECT a.username FROM seminar_user
+JOIN auth_user_md5 a USING (user_id)
+WHERE seminar_id = ?
+AND (status = 'autor' OR status = 'user')
+AND user_id NOT IN
+(SELECT user_id FROM statusgruppen st
+JOIN statusgruppe_user su USING (statusgruppe_id)
+WHERE st.range_id = ?)");
+            $stmt->execute(array(Course::findCurrent()->id, Course::findCurrent()->id));
             $informUserLink = URLHelper::getLink('sms_send.php', array('filter' => 'send_sms_to_all',
                         'rec_uname' => $stmt->fetchAll(PDO::FETCH_COLUMN, 0)));
             if ($stmt->rowCount()) {
@@ -101,14 +102,15 @@ class ShowController extends StudipController {
             return 0;
         }
 
-        $stmt = DBManager::get()->prepare("SELECT a.* FROM seminar_user s
-                JOIN statusgruppen st ON (seminar_id = range_id) 
-                JOIN auth_user_md5 a USING (user_id)
-                LEFT JOIN statusgruppe_user su ON (st.statusgruppe_id = su.statusgruppe_id AND s.user_id = su.user_id)
-                WHERE seminar_id = ?
-                AND (s.status = 'autor' OR s.status = 'user')
-                AND su.user_id IS NULL");
-        $stmt->execute(array(Course::findCurrent()->id));
+        $stmt = DBManager::get()->prepare("SELECT a.* FROM seminar_user
+JOIN auth_user_md5 a USING (user_id)
+WHERE seminar_id = ?
+AND (status = 'autor' OR status = 'user')
+AND user_id NOT IN
+(SELECT user_id FROM statusgruppen st
+JOIN statusgruppe_user su USING (statusgruppe_id)
+WHERE st.range_id = ?)");
+        $stmt->execute(array(Course::findCurrent()->id, Course::findCurrent()->id));
 
         // It's execution time
         if (Request::submitted('execute')) {
