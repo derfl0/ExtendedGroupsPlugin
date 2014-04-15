@@ -96,6 +96,10 @@ WHERE st.range_id = ?)");
 
     public function removeUsersWithoutGroup_action() {
 
+        if (!$GLOBALS['perm']->have_studip_perm('tutor', $_SESSION['SessionSeminar'])) {
+            throw new AccessDeniedException(_('Keine Berechtigung'));
+        }
+        
         // Mission abort
         if (Request::submitted('abort')) {
             $this->redirect('show/index');
