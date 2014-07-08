@@ -10,7 +10,7 @@
             <td <?= $tutor ? 'class="dragHandle"' : '' ?>></td>
             <td><?= $user->position + 1 ?></td>
             <td><?= $user->avatar() ?></td>
-            <td><?= $user->name() ?></td>
+            <td><?= ObjectdisplayHelper::link($user->user); ?></td>
             <td class="actions">
                 <? if ($tutor): ?>
                     <a title="<?= _('Aus Gruppe austragen') ?>" class="modal" href="<?= $controller->url_for("show/delete/{$group->id}/{$user->user_id}") ?>">
