@@ -33,6 +33,10 @@
                 <? else: ?>
                     <?= Assets::img("icons/16/grey/visibility-invisible.png", tooltip2(_('Diese Gruppe ist für Benutzer unsichtbar'))) ?>
                 <? endif; ?>
+                <a title="<?= _('Nachricht an alle Gruppenmitglieder') ?>" href="<?= URLHelper::getLink('sms_send.php', array('filter' => 'send_sms_to_all',
+                'rec_uname' => SimpleORMapCollection::createFromArray($group->members->pluck('user'))->getValue('username'))) ?>">
+                <?= Assets::img("icons/16/blue/mail.png", tooltip2(_('Nachricht an alle Gruppenmitglieder'))) ?>
+                </a>
                 <a class='modal' title="<?= _('Gruppe ändern') ?>" href="<?= $controller->url_for("show/editGroup/{$group->id}") ?>">
                     <?= Assets::img("icons/16/blue/edit.png", tooltip2(_('Gruppe ändern'))) ?>
                 </a>
